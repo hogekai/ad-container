@@ -5,11 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "dts-bundle-generator -o dist/ad-container.d.ts src/index.ts && vite build",
+    "build:type": "dts-bundle-generator -o dist/ad-compass.d.ts src/index.ts",
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.4",
+    "autoprefixer": "^10.4.20",
+    "dts-bundle-generator": "^9.5.1",
+    "path": "^0.12.7",
     "typescript": "^5.5.3",
-    "vite": "^5.4.1"
+    "url": "^0.11.4",
+    "vite": "^5.4.1",
+    "vite-plugin-lib-inject-css": "^2.1.1",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.0.5"
   }
 }
