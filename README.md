@@ -1,48 +1,54 @@
 # AdContainer
 
-AdContainerは、広告などのサードパーティコンテンツを、単純なタグで囲むだけで完全に独立した環境で実行できる強力なWebコンポーネントです。
+AdContainer is a powerful web component that allows third-party content, such as advertisements, to run in a completely isolated environment by simply wrapping it with a simple tag.
 
-## 主な特徴
+## Key Features
 
-- **簡単な統合**: コンテンツを`<ad-container>`タグで囲むだけです。
-- **完全な分離**: 完全に別個の`window`オブジェクトと実行コンテキストを提供します。
-- **セキュリティ**: サードパーティスクリプトがメインページにアクセスしたり干渉したりすることを防ぎます。
-- **使いやすさ**: 複雑なセットアップや設定は不要です。
+- **Easy Integration**: Just wrap your content with the `<ad-container>` tag.
+- **Complete Isolation**: Provides a fully separate `window` object and execution context.
+- **Security**: Prevents third-party scripts from accessing or interfering with the main page.
+- **User-Friendly**: No complex setup or configuration required.
 
-## インストール
+## Installation
 
 ```bash
 npm install ad-container
 ```
 
-## 使用方法
+## Usage
 
-1. コンポーネントをインポートします：
+1. Import the component:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/ad-container@latest/dist/ad-container.umd.js"></script>
+```
 
 ```javascript
 import 'ad-container';
 ```
 
-2. HTMLで使用します：
+Note: Make sure to complete the loading before the tag you're using (<ad-container>).
+
+2. Use it in your HTML:
 
 ```html
 <ad-container>
-  <!-- サードパーティコンテンツや広告コードをここに配置 -->
+  <!-- Place your third-party content or ad code here -->
   <script>
-    // このスクリプトは独立した環境で実行されます
-    console.log(window); // これは別個のwindowオブジェクトです
+    // This script runs in an isolated environment
+    console.log(window); // This is a separate window object
   </script>
 </ad-container>
 ```
 
-## 動作原理
+## How It Works
 
-AdContainerは各インスタンスに対してサンドボックス化されたiframeを作成し、新しい独立した`window`オブジェクトと実行コンテキストを提供します。これにより、`<ad-container>`内のコードがメインページと相互作用したり影響を与えたりすることがなく、セキュリティと安定性が向上します。
+AdContainer creates a sandboxed iframe for each instance, providing a new isolated `window` object and execution context. This ensures that code within the `<ad-container>` cannot interact with or affect the main page, improving security and stability.
 
-## セキュリティに関する注意
+## Security Note
 
-AdContainerは強力な分離を提供しますが、アプリケーションにサードパーティコンテンツを含める際は常に注意を払ってください。
+While AdContainer provides strong isolation, always exercise caution when including third-party content in your application.
 
-## ライセンス
+## License
 
-このプロジェクトはMITライセンスの下で提供されています。詳細は[LICENSE](LICENSE)ファイルをご覧ください。
+This project is provided under the MIT License. For more details, see the [LICENSE](../LICENSE) file.
