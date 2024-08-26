@@ -19,14 +19,14 @@ export class AdContainer extends HTMLElement {
     );
   }
 
-  connectedCallback() {
+  public connectedCallback() {
     this.isConnected = true;
     this.iframeManager.setup();
     this.contentObserver.start();
     this.updateIfPending();
   }
 
-  disconnectedCallback() {
+  public disconnectedCallback() {
     this.isConnected = false;
     this.contentObserver.stop();
   }
