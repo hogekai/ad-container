@@ -38,8 +38,6 @@ export class IframeManager {
         </html>
       `;
 
-      console.log('content:', content);
-
     this.iframe.srcdoc = html.replace(/\n/g, "").replace(/\s+/g, " ").trim();
     this.iframe.onload = () => this.reinsertScripts(scriptContents);
   }
