@@ -51,7 +51,6 @@ export class AdContainer extends HTMLElement {
     const scriptContents = this.scriptHandler.extractScriptContents(scripts);
     this.scriptHandler.disableScripts(scripts);
     const content = this.innerHTML;
-    this.scriptHandler.restoreScripts(scripts);
     this.iframeManager.setContent(content, scriptContents);
   }
 }

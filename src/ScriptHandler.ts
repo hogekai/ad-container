@@ -16,10 +16,15 @@ export class ScriptHandler {
 
   disableScripts(scripts: HTMLScriptElement[]) {
     scripts.forEach((script) => {
+      if (script.getAttribute("data-original-type")) {
+        return;
+      }
+
+      const originalType = script.getAttribute("type");
       script.type = "text/plain";
       script.setAttribute(
         "data-original-type",
-        script.getAttribute("type") || ""
+        originalType || ""
       );
     });
   }

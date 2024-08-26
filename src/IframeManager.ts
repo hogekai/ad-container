@@ -7,7 +7,7 @@ export class IframeManager {
     this.iframe = document.createElement("iframe");
   }
 
-  setup() {
+  public setup() {
     const style = document.createElement("style");
     style.textContent = `
         :host { display: block; width: 100%; height: 100%; }
@@ -17,7 +17,7 @@ export class IframeManager {
     this.shadowRoot.appendChild(this.iframe);
   }
 
-  setContent(content: string, scriptContents: ScriptContent[]) {
+  public setContent(content: string, scriptContents: ScriptContent[]) {
     const html = `
         <!DOCTYPE html>
         <html>
@@ -37,6 +37,8 @@ export class IframeManager {
           <body>${content}</body>
         </html>
       `;
+
+      console.log('content:', content);
 
     this.iframe.srcdoc = html.replace(/\n/g, "").replace(/\s+/g, " ").trim();
     this.iframe.onload = () => this.reinsertScripts(scriptContents);

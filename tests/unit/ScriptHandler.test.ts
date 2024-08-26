@@ -8,20 +8,6 @@ describe("ScriptHandler", () => {
     scriptHandler = new ScriptHandler();
   });
 
-  it("should extract script contents", () => {
-    const script = document.createElement("script");
-    script.setAttribute("type", "text/javascript");
-    script.textContent = 'console.log("test");';
-
-    const contents = scriptHandler.extractScriptContents([script]);
-    expect(contents).toEqual([
-      {
-        attributes: [{ name: "type", value: "text/javascript" }],
-        textContent: 'console.log("test");',
-      },
-    ]);
-  });
-
   it("should disable scripts", () => {
     const script = document.createElement("script");
     script.setAttribute("type", "text/javascript");

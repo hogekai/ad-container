@@ -5,7 +5,7 @@ export class ContentObserver {
     this.observer = new MutationObserver(() => this.callback());
   }
 
-  start() {
+  public start() {
     this.observer.observe(this.target, {
       childList: true,
       subtree: true,
@@ -13,7 +13,7 @@ export class ContentObserver {
     });
   }
 
-  stop() {
+  public stop() {
     this.observer.disconnect();
   }
 }
