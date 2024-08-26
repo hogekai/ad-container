@@ -1,48 +1,56 @@
+import { ContentObserver } from "./ContentObserver";
+import { IframeManager } from "./IframeManager";
+import { ScriptHandler } from "./ScriptHandler";
+
 export class AdContainer extends HTMLElement {
-  private iframe: HTMLIFrameElement;
-  private resizeObserver: ResizeObserver;
+  private iframeManager: IframeManager;
+  private contentObserver: ContentObserver;
+  private scriptHandler: ScriptHandler;
+  public isConnected: boolean = false;
+  private pendingUpdate: boolean = false;
 
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.iframe = document.createElement("iframe");
-    this.iframe.style.border = "none";
-    this.iframe.style.width = "100%";
-    this.iframe.style.height = "100%";
+    this.iframeManager = new IframeManager(this.shadowRoot!);
+    this.scriptHandler = new ScriptHandler();
+    this.contentObserver = new ContentObserver(this, () =>
+      this.handleContentChange()
+    );
   }
 
-  public connectedCallback() {
-    if (this.shadowRoot) {
-      this.shadowRoot.appendChild(this.iframe);
+  connectedCallback() {
+    this.isConnected = true;
+    this.iframeManager.setup();
+    this.contentObserver.start();
+    this.updateIfPending();
+  }
+
+  disconnectedCallback() {
+    this.isConnected = false;
+    this.contentObserver.stop();
+  }
+
+  private handleContentChange() {
+    if (this.isConnected) {
       this.updateIframeContent();
+    } else {
+      this.pendingUpdate = true;
     }
   }
 
-  public disconnectedCallback() {
+  private updateIfPending() {
+    if (this.pendingUpdate) {
+      this.updateIframeContent();
+      this.pendingUpdate = false;
+    }
   }
 
   private updateIframeContent() {
+    const scripts = Array.from(this.querySelectorAll("script"));
+    const scriptContents = this.scriptHandler.extractScriptContents(scripts);
+    this.scriptHandler.disableScripts(scripts);
     const content = this.innerHTML;
-    this.innerHTML = "";
-    const html = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@1.0.15/destyle.css"/>
-          <style>
-            html, body { 
-              width: 100%; 
-              height: 100%; 
-              margin: 0; 
-              padding: 0; 
-              overflow: hidden;
-            }
-          </style>
-        </head>
-        <body>${content}</body>
-      </html>
-    `;
-    this.iframe.srcdoc = html;
+    this.iframeManager.setContent(content, scriptContents);
   }
 }

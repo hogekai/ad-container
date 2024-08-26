@@ -13,11 +13,11 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   build: {
     emptyOutDir: false,
-    minify: false,
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
+      formats: ['es', 'umd'],
       name: "AdContainer",
-      fileName: "ad-container",
+      fileName: (format) => `ad-container.${format}.js`,
     },
     rollupOptions: {
       external: [],
